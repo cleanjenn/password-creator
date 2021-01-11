@@ -14,18 +14,60 @@ let pwdInput = {
 
 //variables for password criteria prompt
 let confirmLength = "";
+let confirmSpecChar;
+let confirmUpper;
+let confirmLower;
+let confirmNumber; 
 let pwdChars = [];
 
 // function to promt for password criteria
 let generatePassword = function() {
     confirmLength = window.prompt('How many characters do you want to have?');
+
     //alert for password to contain 8 - 128 characters 
     if ((confirmLength <= 7) || (confirmLength >= 129)) {
-        window.alert('Password must include a length of atleadt 8 - 128 characters');
+        window.alert('Password must include a length of atleast 8 - 128 characters');
         //repeat confirm question
         confirmLength();
     }
     window.alert(`Your password will have ${confirmLength} characters`);
+    
+    confirmSpecChar = window.confirm('Would you like to use special characters?');
+    if (confirmSpecChar === true) {
+        pwdChars = [...pwdChars, ...pwdInput.specialChar];
+    } else {
+        pwdChars= [...pwdChars]; 
+    };
+
+    confirmUpper = window.confirm('Would you like to use upper case letters?');
+    if (confirmUpper === true) {
+        pwdChars = [...pwdChars, ...pwdInput.uppercase];
+    } else {
+        pwdChars= [...pwdChars]
+    }
+
+    confirmLower = window.confirm('Would you like to use lower case letters?');
+    if (confirmLower === true) {
+        pwdChars = [...pwdChars, ...pwdInput.lowercase];
+    } else {
+        pwdChars= [...pwdChars]
+    }
+
+    confirmLower = window.confirm('Would you like to use numbers?');
+    if (confirmNumber === true) {
+        pwdChars = [...pwdChars, ...pwdInput.number];
+    } else {
+        pwdChars= [...pwdChars]
+    };
+    //password selection created into string
+    let randPwd = "";
+    //for loop to generate password
+    for (let i = 0; i < confirmLength; i++) {
+        randPwd = randPwd + pwdChars[Math.floor(Math.random() * pwdChars.length)];
+    }
+    // return the password to generate
+    return randPwd;
+
 };
 // Write password to the #password input
 function writePassword() {
