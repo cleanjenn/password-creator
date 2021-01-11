@@ -1,6 +1,3 @@
-// Assignment code here
-
-
 // Get references to the #generate element
 let generateBtn = document.querySelector("#generate");
 
@@ -11,7 +8,6 @@ let pwdInput = {
     number: ["0","1","2","3","4","5","6","7","8","9"],
     specialChar: [" ", ".", "~", "!", "#", "$", "%", "&", "'", "(", ")", "*", "+", "-", "/", "^", ",", ":", ";", "<", ">", "=", "?", "@", "[", "]", "|", "{", "}", "_", "`"]
 };
-
 //variables for password criteria prompt
 let confirmLength = "";
 let confirmSpecChar;
@@ -25,40 +21,55 @@ let generatePassword = function() {
     confirmLength = window.prompt('How many characters do you want to have?');
 
     //alert for password to contain 8 - 128 characters 
-    if ((confirmLength <= 7) || (confirmLength >= 129)) {
+    while ((confirmLength <= 7) || (confirmLength >= 129)) {
         window.alert('Password must include a length of atleast 8 - 128 characters');
         //repeat confirm question
         confirmLength();
-    }
+    };
     window.alert(`Your password will have ${confirmLength} characters`);
-    
+    // confirm other character types 
     confirmSpecChar = window.confirm('Would you like to use special characters?');
+    confirmUpper = window.confirm('Would you like to use upper case letters?');
+    confirmLower = window.confirm('Would you like to use lower case letters?');
+    confirmNumber = window.confirm('Would you like to use numbers?');
+
+    while (
+        confirmSpecChar === false && 
+        confirmUpper === false && 
+        confirmLower === false && 
+        confirmNumber === false
+        ) {
+            alert("You must choose at least one character type to be a valid password");
+            confirmSpecChar();
+            confirmUpper();
+            confirmLower();
+            confirmNumber();
+    };
+    // if & else conditions to be valid 
     if (confirmSpecChar === true) {
         pwdChars = [...pwdChars, ...pwdInput.specialChar];
     } else {
         pwdChars= [...pwdChars]; 
     };
 
-    confirmUpper = window.confirm('Would you like to use upper case letters?');
     if (confirmUpper === true) {
         pwdChars = [...pwdChars, ...pwdInput.uppercase];
     } else {
         pwdChars= [...pwdChars]
     }
 
-    confirmLower = window.confirm('Would you like to use lower case letters?');
     if (confirmLower === true) {
         pwdChars = [...pwdChars, ...pwdInput.lowercase];
     } else {
         pwdChars= [...pwdChars]
     }
 
-    confirmLower = window.confirm('Would you like to use numbers?');
     if (confirmNumber === true) {
         pwdChars = [...pwdChars, ...pwdInput.number];
     } else {
         pwdChars= [...pwdChars]
     };
+    
     //password selection created into string
     let randPwd = "";
     //for loop to generate password
@@ -67,7 +78,6 @@ let generatePassword = function() {
     }
     // return the password to generate
     return randPwd;
-
 };
 // Write password to the #password input
 function writePassword() {
@@ -75,8 +85,6 @@ function writePassword() {
   let passwordText = document.querySelector("#password");
 
   passwordText.value = password;
-
 }
-
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
